@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid VAE-WGAN-GP | Research Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { fontFamily: 'Plus Jakarta Sans', primaryColor: '#3b82f6', secondaryColor: '#a855f7', tertiaryColor: '#1e293b' } });</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* TIMER UI */
+        #timerContainer {
+            background: #ffffff;
+            color: #020617;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 3px solid #3b82f6;
+            z-index: 1000;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                background-color: #ffffff;
+            }
+
+            50% {
+                background-color: #fca5a5;
+            }
+        }
+
+        .timer-warning {
+            animation: flicker 1s infinite;
+            border: 3px solid #ef4444 !important;
+            color: #b91c1c !important;
+        }
+
+        .timer-stop {
+            background-color: #991b1b !important;
+            color: #ffffff !important;
+            border: 3px solid #f87171 !important;
+            animation: none;
+        }
+
+        /* COLLAPSIBLE ALGORITHM */
+        details>summary {
+            list-style: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open]>summary {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .algo-step {
+            border-left: 2px solid #334155;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .algo-step::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body onload="startTimer()">
+
+    <!-- TIMER -->
+    <div id="timerContainer"
+        class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4 transition-all">
+        <i class="fas fa-hourglass-start text-blue-600 text-2xl" id="timerIcon"></i>
+        <span id="displayTime" class="text-4xl font-black font-mono tracking-tighter">00:00</span>
+    </div>
+
+    <!-- NAV -->
+    <nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div class="bg-white p-1 rounded flex items-center justify-center shadow-md"
+                style="height: 48px; width: 48px;">
+                <!-- Placeholder for logo if user has one, else generic icon -->
+                <i class="fas fa-university text-slate-900 text-2xl"></i>
+            </div>
+            <div class="flex flex-col text-left">
+                <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span
+                        class="text-blue-500 italic">2026</span></span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer
+                    Science & Engineering</span>
+            </div>
+        </div>
+        <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+            <a href="#problem" class="hover:text-blue-400 transition">Problem</a>
+            <a href="#literature" class="hover:text-blue-400 transition">Lit Review</a>
+            <a href="#methodology" class="hover:text-blue-400 transition">Methodology</a>
+            <a href="#results" class="hover:text-blue-400 transition">Results</a>
+            <a href="#team" class="hover:text-blue-400 transition">Team</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-48 pb-32 space-y-32">
+
+        <!-- HEADER -->
+        <section class="text-center space-y-6">
+            <div
+                class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono uppercase tracking-widest">
+                ID: 23FE10CSE00560</div>
+            <h1 class="text-5xl md:text-7xl font-extrabold uppercase leading-tight max-w-5xl mx-auto">
+                <span class="gradient-text">Hybrid VAE-WGAN-GP</span><br>
+                <span class="text-3xl md:text-4xl text-white block mt-4">Synthetic Data Augmentation for Improved Heart
+                    Disease Prediction</span>
+            </h1>
+            <p
+                class="text-slate-400 max-w-3xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
+                "We propose a hybrid Variational Autoencoder (VAE) for robust latent space understanding incorporated
+                with a Wasserstein GAN with Gradient Penalty (WGAN-GP) to generate high-fidelity clinical synthetic
+                datapoints, addressing class imbalance and data scarcity in various Heart Disease Datasets."
+            </p>
+        </section>
+
+        <!-- PROBLEM & LIT REVIEW -->
+        <section id="problem" class="grid md:grid-cols-2 gap-12 items-start">
+            <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600 h-full">
+                <h2 class="text-3xl font-extrabold mb-6 flex items-center gap-3"><i
+                        class="fas fa-exclamation-triangle text-blue-500"></i> Problem Statement</h2>
+                <div class="space-y-4 text-slate-400 leading-relaxed text-justify">
+                    <p>
+                        <strong class="text-slate-200">Data Scarcity & Imbalance:</strong> Coronary Heart Disease (CHD)
+                        is a global burden, yet high-quality datasets for diagnosis are often scarce or imbalanced,
+                        especially in low-to-middle income countries.
+                    </p>
+                    <p>
+                        <strong class="text-slate-200">Model Collapse in VAEs:</strong> Traditional generative methods
+                        like Variational Autoencoders (VAEs) often fail to capture feature relationships effectively,
+                        suffering from "mode collapse" (generating limited varieties of samples) and "variance collapse"
+                        (samples tightly clustered around the mean).
+                    </p>
+                    <p>
+                        <strong class="text-slate-200">Clinical Impact:</strong> These limitations lead to poor
+                        generalizability in predictive models, hindering early diagnosis and risk detection.
+                    </p>
+                </div>
+            </div>
+
+            <div id="literature" class="space-y-6">
+                <div class="glass p-8 rounded-3xl border-r-4 border-purple-500/50">
+                    <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-4">Literature Review</h3>
+                    <ul class="space-y-4 text-sm text-slate-400">
+                        <li class="flex gap-3">
+                            <span class="text-slate-600 font-mono">01</span>
+                            <span><strong>Yilmaz et al. [19]:</strong> Used RF, LR, and SVM. RF achieved highest
+                                accuracy (92.9%), but limited by data size.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-slate-600 font-mono">02</span>
+                            <span><strong>Tazwar et al. [12]:</strong> Identified "posterior collapse" in VAEs for
+                                tabular data. Proposed Tab-VAE but still had low F1-scores on imbalanced data.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-slate-600 font-mono">03</span>
+                            <span><strong>Xu et al. [17]:</strong> Proposed CTGAN. Outperformed traditional methods but
+                                requires further stability improvements for medical data.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-3xl border-r-4 border-green-500/50">
+                    <h3 class="text-green-400 font-bold text-xs uppercase tracking-widest mb-4">Research Gap &
+                        Innovation</h3>
+                    <p class="text-sm text-slate-400 italic">
+                        "While GANs and VAEs exist individually, a hybrid approach specifically targeting the stability
+                        of WGAN-GP with the latent structure of VAE for <strong>Tabular Medical Data</strong> is
+                        underexplored. Our innovation lies in using the VAE decoder as the foundation for the WGAN
+                        generator to enforce robust feature correlation."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- METHODOLOGY -->
+        <section id="methodology" class="space-y-12">
+            <h2 class="text-4xl font-black text-center uppercase tracking-tight">System <span
+                    class="text-blue-500">Methodology</span></h2>
+
+            <!-- High Level Cards -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
+                    <i class="fas fa-database text-blue-500 text-3xl mb-4"></i>
+                    <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">Dataset (Comprehensive)</h3>
+                    <p class="text-sm text-slate-500">Combined 5 datasets (Cleveland, Hungarian, etc.)<br>1190
+                        Instances, 11 Features.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
+                    <i class="fas fa-brain text-purple-500 text-3xl mb-4"></i>
+                    <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">VAE-WGAN-GP Hybrid</h3>
+                    <p class="text-sm text-slate-500">VAE for Latent Space Learning.<br>WGAN-GP for Data Refinement.</p>
+                </div>
+                <div
+                    class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5 relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-green-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    </div>
+                    <i class="fab fa-github text-green-500 text-3xl mb-4 relative z-10"></i>
+                    <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-green-400 relative z-10">Live
+                        Execution</h3>
+                    <a href="https://github.com/Ridhi-Kul/CHD" target="_blank"
+                        class="px-6 py-2 bg-green-600 rounded-full text-[10px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 relative z-10 inline-block">VIEW
+                        REPOSITORY</a>
+                </div>
+            </div>
+
+            <!-- Detailed Algorithm & Workflow -->
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Algorithm Column -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold mb-6">Algorithm: <span class="text-blue-400">VAE-WGAN-GP
+                            Pipeline</span></h3>
+
+                    <details class="glass p-6 rounded-2xl" open>
+                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                            Phase 1: VAE Foundational Training
+                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                        </summary>
+                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                            <div class="algo-step">Input: Real Training Data (X_train)</div>
+                            <div class="algo-step">Preprocess: P.fit_transform(X_train)</div>
+                            <div class="algo-step">Initialize VAE (Encoder E, Decoder D)</div>
+                            <div class="algo-step">Train VAE by minimizing <strong>L_VAE (ELBO)</strong></div>
+                            <div class="algo-step">Output: Pre-trained Decoder (D_trained)</div>
+                        </div>
+                    </details>
+
+                    <details class="glass p-6 rounded-2xl">
+                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                            Phase 2: WGAN-GP Refinement
+                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                        </summary>
+                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                            <div class="algo-step">Initialize Generator G using D_trained as core</div>
+                            <div class="algo-step">Initialize Critic C</div>
+                            <div class="algo-step"><strong>Loop</strong> (Training Iterations):</div>
+                            <div class="algo-step pl-6">Sample real data {x} and noise {z}</div>
+                            <div class="algo-step pl-6">Compute Critic Loss L_C (Wasserstein + Gradient Penalty)</div>
+                            <div class="algo-step pl-6">Update Critic parameters</div>
+                            <div class="algo-step pl-6">Train Generator (minimize -Critic output)</div>
+                            <div class="algo-step">Output: Final Generator (G_final)</div>
+                        </div>
+                    </details>
+
+                    <details class="glass p-6 rounded-2xl">
+                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                            Phase 3: Final Data Synthesis
+                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                        </summary>
+                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                            <div class="algo-step">Generate Noise {z0, z1} for classes 0 and 1</div>
+                            <div class="algo-step">Generate Raw Synthetic Data: G_final(z, y)</div>
+                            <div class="algo-step">Inverse Transform to Original Scale</div>
+                            <div class="algo-step"><strong>Result:</strong> High-Quality Synthetic Dataset</div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Workflow Diagram Column -->
+                <!-- Workflow Diagram Column (Mermaid) -->
+                <div
+                    class="glass p-6 rounded-3xl flex flex-col items-center justify-center bg-white/5 border border-white/10 relative overflow-hidden">
+                    <h3 class="text-xl font-bold mb-4 text-center">Proposed Workflow (VAE-WGAN-GP)</h3>
+                    <div class="mermaid w-full flex justify-center transform scale-90 md:scale-100">
+                        flowchart TD
+                        %% Nodes with Custom Styles
+                        classDef default fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc;
+                        classDef blue fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff;
+                        classDef purple fill:#581c87,stroke:#a855f7,stroke-width:2px,color:#fff;
+                        classDef green fill:#064e3b,stroke:#22c55e,stroke-width:2px,color:#fff;
+                        classDef metrics fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff;
+
+                        %% Start
+                        Start[Data Preprocessing<br />Cleaning, Normalization,<br />Train-Test Split 75:25]:::default
+
+                        %% Original Path
+                        OC[Train Classifiers<br />Baseline Data]:::blue
+
+                        %% VAE Path
+                        VAE[VAE Phase<br />Encoder -> 10D -> Decoder<br />50 Epochs, Adam]:::purple
+                        Latent[Synthetic Representations<br />in Latent Space]:::purple
+
+                        %% WGAN Path
+                        WGAN[WGAN-GP Phase<br />Generator <-> Critic<br />Epoch=150, Lambda=10]:::purple
+                            Refined[Refined Synthetic Data]:::purple
+
+                            %% Augmentation
+                            Aug[Augmentation Phase<br />Combine Synthetic + Original 1:1]:::green
+                            AC[Train Classifiers<br />Augmented Data]:::green
+
+                            %% Evaluation
+                            Eval[Evaluation<br />Accuracy, Precision,<br />Recall, F1 Score]:::metrics
+
+                            %% Edges
+                            Start -->|Original Datapath| OC
+                            Start -->|Data Augmentation Path| VAE
+                            VAE --> Latent
+                            Latent -->|Decoder Foundation| WGAN
+                            WGAN --> Refined
+                            Refined --> Aug
+                            Start -.->|Original Data| Aug
+                            Aug -->|Column Transformer| AC
+
+                            OC --> Eval
+                            AC --> Eval
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTS -->
+        <section id="results" class="glass p-12 rounded-[3.5rem] border-t-4 border-blue-500">
+            <h2 class="text-3xl font-black mb-12 text-center uppercase tracking-tight">Results & <span
+                    class="text-blue-500">Analysis</span></h2>
+
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Chart -->
+                <div class="h-96 w-full"><canvas id="resultsChart"></canvas></div>
+
+                <!-- Text Analysis -->
+                <div class="space-y-8">
+                    <div class="p-6 rounded-2xl bg-white/5 flex flex-col gap-2 border border-white/10 shadow-inner">
+                        <span class="text-slate-400 font-bold uppercase text-xs tracking-widest">Key Achievement</span>
+                        <div class="flex items-end gap-4">
+                            <span class="text-blue-400 font-mono font-black text-5xl">92.95%</span>
+                            <span class="text-slate-500 text-sm mb-2">Accuracy (Random Forest)</span>
+                        </div>
+                        <div class="w-full bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+                            <div class="bg-blue-500 h-full" style="width: 92.95%"></div>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-400 text-sm leading-relaxed text-justify">
+                        "A comparative study was conducted by training various non-ensemble and ensemble machine
+                        learning models with <strong>Grey Wolf Optimization (GWO)</strong>.
+                        A significant improvement was evaluated with notable increase in accuracy for <strong>Random
+                            Forest (from 87.25% to 92.95%)</strong> and <strong>SVM (from 85.23% to 92.28%)</strong>
+                        when trained on the augmented dataset (1:1 ratio)."
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-4 rounded-xl text-center">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">CatBoost</p>
+                            <p class="text-xl font-bold text-white">90.94% <span
+                                    class="text-xs text-green-400">(+4.03%)</span></p>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border border-red-500/20">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">Naive Bayes</p>
+                            <p class="text-xl font-bold text-white">74.50% <span
+                                    class="text-xs text-red-400">(-4.02%)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCLUSION & TEAM -->
+        <section id="team" class="text-center pt-10 border-t border-slate-900">
+            <h2 class="text-4xl font-black mb-8">Conclusion</h2>
+            <p class="max-w-4xl mx-auto text-slate-400 mb-16 leading-relaxed">
+                "Our proposed VAE-WGAN-GP architecture successfully addresses data scarcity in medical datasets. By
+                leveraging the VAE's latent space understanding and WGAN-GP's stable training, we generated high-quality
+                synthetic data that significantly improved the robustness and generalizability of ML models for Heart
+                Disease Prediction."
+            </p>
+
+            <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12">Project Team</h2>
+            <div class="flex flex-wrap justify-center gap-10">
+                <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600 w-72">
+                    <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Mentor / Guide</p>
+                    <p class="font-black text-xl text-slate-100">Dr. Akshay Jadhav</p>
+                    <p class="text-[10px] text-slate-500 mt-1">Manipal University Jaipur</p>
+                </div>
+                <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-purple-600 w-72">
+                    <p class="text-[9px] font-bold text-purple-400 mb-2 uppercase tracking-widest">Presenter / Student
+                    </p>
+                    <p class="font-black text-xl text-slate-100">Ridhi Kulshreshtha</p>
+                    <p class="text-[10px] text-slate-500 mt-1">23FE10CSE00560</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-12 text-center bg-black/40 border-t border-slate-900 mt-20">
+        <p class="text-slate-600 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Manipal University Jaipur</p>
+        <p class="text-slate-500 text-[9px] font-medium tracking-[0.2em] uppercase opacity-50">Department of Computer
+            Science & Engineering • 2026</p>
+    </footer>
+
+    <script>
+        // TIMER LOGIC (Matches requirement)
+        let sec = 0;
+        let timer = null;
+        function startTimer() {
+            timer = setInterval(() => {
+                sec++;
+                let m = Math.floor(sec / 60);
+                let s = sec % 60;
+                document.getElementById('displayTime').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+                // 8 Mins = 480 sec (Warning)
+                if (sec >= 480 && sec < 600) {
+                    document.getElementById('timerContainer').classList.add('timer-warning');
+                    document.getElementById('timerIcon').classList.replace('fa-hourglass-start', 'fa-hourglass-half');
+                }
+                // 10 Mins = 600 sec (Stop)
+                else if (sec >= 600) {
+                    clearInterval(timer);
+                    document.getElementById('timerContainer').classList.replace('timer-warning', 'timer-stop');
+                    document.getElementById('displayTime').innerText = "10:00";
+                    document.getElementById('timerIcon').classList.replace('fa-hourglass-half', 'fa-hourglass-end');
+                }
+            }, 1000);
+        }
+
+        // RESULTS CHART (Data from Table 1)
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Logistic Regression', 'SVM', 'Random Forest', 'XGBoost', 'CatBoost'],
+                datasets: [
+                    {
+                        label: 'Baseline Data',
+                        data: [82.55, 85.23, 87.25, 87.25, 86.91],
+                        backgroundColor: '#1e293b',
+                        borderRadius: 8,
+                        barPercentage: 0.6
+                    },
+                    {
+                        label: 'Augmented (VAE-WGAN-GP)',
+                        data: [84.90, 92.28, 92.95, 88.59, 90.94],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 8,
+                        barPercentage: 0.6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans' } } },
+                    tooltip: { backgroundColor: 'rgba(0,0,0,0.8)', padding: 12 }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 70,
+                        max: 100,
+                        grid: { color: '#ffffff05' },
+                        ticks: { color: '#64748b' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

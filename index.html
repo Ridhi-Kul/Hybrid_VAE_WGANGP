@@ -394,6 +394,151 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Effect of Data Augmentation and Optimization -->
+            <div class="mt-16 border-t border-white/10 pt-16">
+                <h3 class="text-2xl font-bold mb-8 text-center uppercase tracking-widest text-slate-200"><span
+                        class="text-blue-500">5.3</span> Effect of Data Augmentation & Optimization</h3>
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+
+                    <!-- Text Descriptions -->
+                    <div class="space-y-6 text-slate-400 text-sm leading-relaxed text-justify">
+                        <div class="glass p-6 rounded-2xl border-l-4 border-blue-500/50">
+                            <p>
+                                To understand how the data augmentation contributes to the results and its effect with
+                                respect to optimization strategies we analysed 4 situations:
+                            </p>
+                            <ul class="mt-4 space-y-2 text-slate-300">
+                                <li><strong class="text-blue-400">(i)</strong> Models trained on the real dataset
+                                    without optimization</li>
+                                <li><strong class="text-blue-400">(ii)</strong> Real dataset with GWO optimization</li>
+                                <li><strong class="text-blue-400">(iii)</strong> Augmented dataset without optimization
+                                </li>
+                                <li><strong class="text-blue-400">(iv)</strong> Augmented dataset with GWO</li>
+                            </ul>
+                        </div>
+                        <p>
+                            The impact of data augmentation is independent to the improvement in performance. This can
+                            be observed in Table 2 where we can see that accuracy for <strong class="text-white">SVM
+                                improves from 82.89% on the real dataset to 89.26%</strong> using augmented data without
+                            GWO. This demonstrates that the generated synthetic samples enhance the generalization of
+                            decision boundary.
+                        </p>
+                        <p>
+                            Similarly, this can be noted for ensemble models such as Random Forest and Gradient Boosting
+                            indicating an improvement in the feature space and reduction in overfitting. GWO works to
+                            improve the models performance by facilitating hyperparameter tuning. The improvements
+                            introduced by GWO alone remain comparatively smaller than those achieved through
+                            augmentation for several classifiers.
+                        </p>
+                        <p
+                            class="italic text-slate-500 border-l-2 border-red-500/50 pl-4 bg-red-500/5 p-3 rounded-r-lg">
+                            <strong class="text-red-400 not-italic">Note:</strong> Naïve Bayes exhibits a reduced
+                            performance under augmentation due to violation of its assumption that features are
+                            independent of each other as discussed in Section 5.1.
+                        </p>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="glass rounded-3xl p-6 overflow-x-auto relative group">
+                        <table class="w-full text-left text-[11px] md:text-xs">
+                            <thead class="text-slate-400 font-bold uppercase tracking-wider border-b border-slate-700">
+                                <tr>
+                                    <th class="py-3 px-2">Model</th>
+                                    <th class="py-3 px-2">Real</th>
+                                    <th class="py-3 px-2 text-blue-400 border-l border-white/5 pl-3">Real+GWO</th>
+                                    <th class="py-3 px-2 text-purple-400 border-l border-white/5 pl-3">Augmented</th>
+                                    <th class="py-3 px-2 text-green-400 border-l border-white/5 pl-3">Aug+GWO</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300 divide-y divide-slate-800 font-mono">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Logistic Regression
+                                    </td>
+                                    <td class="py-3 px-2">82.28%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">82.55%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.56%</td>
+                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">84.90%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition bg-red-900/10">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Naïve Bayes</td>
+                                    <td class="py-3 px-2 text-blue-300 font-bold">82.89%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">78.52%</td>
+                                    <td class="py-3 px-2 text-red-400 border-l border-white/5 pl-3">50.34%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">74.50%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">K-Nearest Neighbor</td>
+                                    <td class="py-3 px-2 text-blue-300 font-bold">90.27%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.59%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition bg-green-900/10">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Support Vector Machine
+                                    </td>
+                                    <td class="py-3 px-2">82.89%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">85.23%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
+                                    <td class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
+                                        92.28%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Decision Tree</td>
+                                    <td class="py-3 px-2">84.23%</td>
+                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">87.58%
+                                    </td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition bg-green-900/10">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Random Forest</td>
+                                    <td class="py-3 px-2">86.24%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.91%</td>
+                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">92.28%</td>
+                                    <td class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
+                                        92.95%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">XGBoost</td>
+                                    <td class="py-3 px-2">87.25%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">87.25%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">87.92%</td>
+                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">88.59%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">CatBoost</td>
+                                    <td class="py-3 px-2">87.25%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
+                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">89.93%</td>
+                                    <td class="py-3 px-2 text-green-400 font-bold border-l border-white/5 pl-3">91.28%
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">AdaBoost</td>
+                                    <td class="py-3 px-2">84.23%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">84.56%
+                                    </td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Gradient Boosting</td>
+                                    <td class="py-3 px-2">86.24%</td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
+                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">90.94%
+                                    </td>
+                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.93%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-4 border-t border-slate-700/50 pt-4 text-center">
+                            <p class="text-[10px] text-slate-400 uppercase tracking-widest font-sans">Table 2: Impact of
+                                Data Augmentation and Grey Wolf Optimization on Classification Accuracy (%)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- CONCLUSION & TEAM -->

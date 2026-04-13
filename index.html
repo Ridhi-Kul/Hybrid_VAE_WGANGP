@@ -457,15 +457,16 @@
                             <p>
                                 The impact of data augmentation is independent to the improvement in performance. This
                                 can
-                                be observed in Table 2 where we can see that accuracy for <strong class="text-white">SVM
-                                    improves from 82.89% on the real dataset to 89.26%</strong> using augmented data
+                                be observed in Table 2 where we can see that accuracy for <strong
+                                    class="text-white">Random Forest
+                                    improves from 86.24% on the real dataset to 92.28%</strong> using augmented data
                                 without
                                 GWO. This demonstrates that the generated synthetic samples enhance the generalization
                                 of
                                 decision boundary.
                             </p>
                             <p>
-                                Similarly, this can be noted for ensemble models such as Random Forest and Gradient
+                                Similarly, this can be noted for ensemble models such as CatBoost and Gradient
                                 Boosting
                                 indicating an improvement in the feature space and reduction in overfitting. GWO works
                                 to
@@ -688,13 +689,16 @@
                         <ul class="space-y-3 text-[11px] text-slate-300">
                             <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
                                 <span><strong>Interpretability:</strong> Models like RF can easily rank input features
-                                    using metrics like Gini Index.</span></li>
+                                    using metrics like Gini Index.</span>
+                            </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
                                 <span><strong>Efficiency:</strong> Operates efficiently and effectively on smaller
-                                    datasets.</span></li>
+                                    datasets.</span>
+                            </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-times text-red-500 mt-1"></i>
                                 <span><strong>Limitation:</strong> Poor performance on high-dimensional raw spectral
-                                    data due to the curse of dimensionality.</span></li>
+                                    data due to the curse of dimensionality.</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -710,13 +714,16 @@
                         <ul class="space-y-3 text-[11px] text-slate-300">
                             <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
                                 <span><strong>Feature Learning:</strong> Self-learns without manual human feature
-                                    engineering.</span></li>
+                                    engineering.</span>
+                            </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
                                 <span><strong>Scalability:</strong> Highly adept at processing massive volumes of
-                                    Multi-Modal Fusion RS data.</span></li>
+                                    Multi-Modal Fusion RS data.</span>
+                            </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-times text-red-500 mt-1"></i>
                                 <span><strong>Limitation:</strong> High computational costs and acts as a "Black Box"
-                                    making it less interpretable.</span></li>
+                                    making it less interpretable.</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -733,14 +740,16 @@
                         <ul class="space-y-3 text-[11px] text-slate-300">
                             <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
                                 <span><strong>Early & Mid Fusion:</strong> Combining low-level spectral features into
-                                    two-branch CNNs.</span></li>
+                                    two-branch CNNs.</span>
+                            </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
                                 <span><strong>Balanced Cost:</strong> Well-balanced computational resources. Uses
                                     dimensionality reduction (PCA) from ML to moderate training data amounts.</span>
                             </li>
                             <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
                                 <span><strong>Higher Accuracy:</strong> Mitigates the curse of dimensionality while
-                                    retaining robust feature correlation.</span></li>
+                                    retaining robust feature correlation.</span>
+                            </li>
                         </ul>
                     </div>
                 </div>

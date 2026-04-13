@@ -112,460 +112,826 @@
     </div>
 
     <!-- NAV -->
-    <nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
+    <nav
+        class="fixed w-full z-50 glass border-b border-slate-800/50 px-4 md:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-4">
-            <div class="bg-white p-1 rounded flex items-center justify-center shadow-md"
+            <div class="bg-white p-1 rounded flex items-center justify-center shadow-md hidden sm:flex"
                 style="height: 48px; width: 48px;">
-                <!-- Placeholder for logo if user has one, else generic icon -->
                 <i class="fas fa-university text-slate-900 text-2xl"></i>
             </div>
-            <div class="flex flex-col text-left">
+            <div class="flex flex-col text-left hidden lg:flex">
                 <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span
                         class="text-blue-500 italic">2026</span></span>
                 <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer
                     Science & Engineering</span>
             </div>
         </div>
-        <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+
+        <!-- Tab Switcher -->
+        <div class="flex bg-slate-900/80 p-1 rounded-full border border-slate-700/50 backdrop-blur-xl shrink-0">
+            <button id="btnTab1" onclick="switchTab(1)"
+                class="px-6 py-2 rounded-full text-xs font-bold transition-all bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                <i class="fas fa-heartbeat mr-2"></i>Heart Disease
+            </button>
+            <button id="btnTab2" onclick="switchTab(2)"
+                class="px-6 py-2 rounded-full text-xs font-bold transition-all text-slate-400 hover:text-white">
+                <i class="fas fa-satellite mr-2"></i>Remote Sensing
+            </button>
+        </div>
+
+        <div class="hidden xl:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70"
+            id="navLinksPaper1">
             <a href="#problem" class="hover:text-blue-400 transition">Problem</a>
             <a href="#literature" class="hover:text-blue-400 transition">Lit Review</a>
             <a href="#methodology" class="hover:text-blue-400 transition">Methodology</a>
             <a href="#results" class="hover:text-blue-400 transition">Results</a>
-            <a href="#team" class="hover:text-blue-400 transition">Team</a>
+        </div>
+        <div class="hidden gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70" id="navLinksPaper2">
+            <a href="#intro2" class="hover:text-blue-400 transition">Intro</a>
+            <a href="#techniques2" class="hover:text-blue-400 transition">Techniques</a>
+            <a href="#data2" class="hover:text-blue-400 transition">Data Handling</a>
+            <a href="#casestudy2" class="hover:text-blue-400 transition">Case Study</a>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-48 pb-32 space-y-32">
+    <main class="max-w-7xl mx-auto px-6 pt-48 pb-32">
+        <!-- PAPER 1 WRAPPER -->
+        <div id="paper1" class="space-y-32 transition-opacity duration-500 opacity-100 block">
 
-        <!-- HEADER -->
-        <section class="text-center space-y-6">
-            <div
-                class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono uppercase tracking-widest">
-                ID: 23FE10CSE00560</div>
-            <h1 class="text-5xl md:text-7xl font-extrabold uppercase leading-tight max-w-5xl mx-auto">
-                <span class="gradient-text">Hybrid VAE-WGAN-GP</span><br>
-                <span class="text-3xl md:text-4xl text-white block mt-4">Synthetic Data Augmentation for Improved Heart
-                    Disease Prediction</span>
-            </h1>
-            <p
-                class="text-slate-400 max-w-3xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
-                "We propose a hybrid Variational Autoencoder (VAE) for robust latent space understanding incorporated
-                with a Wasserstein GAN with Gradient Penalty (WGAN-GP) to generate high-fidelity clinical synthetic
-                datapoints, addressing class imbalance and data scarcity in various Heart Disease Datasets."
-            </p>
-        </section>
-
-        <!-- PROBLEM & LIT REVIEW -->
-        <section id="problem" class="grid md:grid-cols-2 gap-12 items-start">
-            <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600 h-full">
-                <h2 class="text-3xl font-extrabold mb-6 flex items-center gap-3"><i
-                        class="fas fa-exclamation-triangle text-blue-500"></i> Problem Statement</h2>
-                <div class="space-y-4 text-slate-400 leading-relaxed text-justify">
-                    <p>
-                        <strong class="text-slate-200">Data Scarcity & Imbalance:</strong> Coronary Heart Disease (CHD)
-                        is a global burden, yet high-quality datasets for diagnosis are often scarce or imbalanced,
-                        especially in low-to-middle income countries.
-                    </p>
-                    <p>
-                        <strong class="text-slate-200">Model Collapse in VAEs:</strong> Traditional generative methods
-                        like Variational Autoencoders (VAEs) often fail to capture feature relationships effectively,
-                        suffering from "mode collapse" (generating limited varieties of samples) and "variance collapse"
-                        (samples tightly clustered around the mean).
-                    </p>
-                    <p>
-                        <strong class="text-slate-200">Clinical Impact:</strong> These limitations lead to poor
-                        generalizability in predictive models, hindering early diagnosis and risk detection.
-                    </p>
-                </div>
-            </div>
-
-            <div id="literature" class="space-y-6">
-                <div class="glass p-8 rounded-3xl border-r-4 border-purple-500/50">
-                    <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-4">Literature Review</h3>
-                    <ul class="space-y-4 text-sm text-slate-400">
-                        <li class="flex gap-3">
-                            <span class="text-slate-600 font-mono">01</span>
-                            <span><strong>Yilmaz et al. [19]:</strong> Used RF, LR, and SVM. RF achieved highest
-                                accuracy (92.9%), but limited by data size.</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="text-slate-600 font-mono">02</span>
-                            <span><strong>Tazwar et al. [12]:</strong> Identified "posterior collapse" in VAEs for
-                                tabular data. Proposed Tab-VAE but still had low F1-scores on imbalanced data.</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="text-slate-600 font-mono">03</span>
-                            <span><strong>Xu et al. [17]:</strong> Proposed CTGAN. Outperformed traditional methods but
-                                requires further stability improvements for medical data.</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="glass p-8 rounded-3xl border-r-4 border-green-500/50">
-                    <h3 class="text-green-400 font-bold text-xs uppercase tracking-widest mb-4">Research Gap &
-                        Innovation</h3>
-                    <p class="text-sm text-slate-400 italic">
-                        "While GANs and VAEs exist individually, a hybrid approach specifically targeting the stability
-                        of WGAN-GP with the latent structure of VAE for <strong>Tabular Medical Data</strong> is
-                        underexplored. Our innovation lies in using the VAE decoder as the foundation for the WGAN
-                        generator to enforce robust feature correlation."
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- METHODOLOGY -->
-        <section id="methodology" class="space-y-12">
-            <h2 class="text-4xl font-black text-center uppercase tracking-tight">System <span
-                    class="text-blue-500">Methodology</span></h2>
-
-            <!-- High Level Cards -->
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
-                    <i class="fas fa-database text-blue-500 text-3xl mb-4"></i>
-                    <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">Dataset (Comprehensive)</h3>
-                    <p class="text-sm text-slate-500">Combined 5 datasets (Cleveland, Hungarian, etc.)<br>1190
-                        Instances, 11 Features.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
-                    <i class="fas fa-brain text-purple-500 text-3xl mb-4"></i>
-                    <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">VAE-WGAN-GP Hybrid</h3>
-                    <p class="text-sm text-slate-500">VAE for Latent Space Learning.<br>WGAN-GP for Data Refinement.</p>
-                </div>
+            <!-- HEADER -->
+            <section class="text-center space-y-6">
                 <div
-                    class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5 relative overflow-hidden group">
+                    class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono uppercase tracking-widest">
+                    ID: 23FE10CSE00560</div>
+                <h1 class="text-5xl md:text-7xl font-extrabold uppercase leading-tight max-w-5xl mx-auto">
+                    <span class="gradient-text">Hybrid VAE-WGAN-GP</span><br>
+                    <span class="text-3xl md:text-4xl text-white block mt-4">Data Augmentation for Improved Heart
+                        Disease Prediction</span>
+                </h1>
+                <p
+                    class="text-slate-400 max-w-3xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
+                    "We propose a hybrid Variational Autoencoder (VAE) for robust latent space understanding
+                    incorporated
+                    with a Wasserstein GAN with Gradient Penalty (WGAN-GP) to generate high-fidelity clinical synthetic
+                    datapoints, addressing class imbalance and data scarcity in various Heart Disease Datasets."
+                </p>
+            </section>
+
+            <!-- PROBLEM & LIT REVIEW -->
+            <section id="problem" class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600 h-full">
+                    <h2 class="text-3xl font-extrabold mb-6 flex items-center gap-3"><i
+                            class="fas fa-exclamation-triangle text-blue-500"></i> Problem Statement</h2>
+                    <div class="space-y-4 text-slate-400 leading-relaxed text-justify">
+                        <p>
+                            <strong class="text-slate-200">Data Scarcity & Imbalance:</strong> Coronary Heart Disease
+                            (CHD)
+                            is a global burden, yet high-quality datasets for diagnosis are often scarce or imbalanced,
+                            especially in low-to-middle income countries.
+                        </p>
+                        <p>
+                            <strong class="text-slate-200">Model Collapse in VAEs:</strong> Traditional generative
+                            methods
+                            like Variational Autoencoders (VAEs) often fail to capture feature relationships
+                            effectively,
+                            suffering from "mode collapse" (generating limited varieties of samples) and "variance
+                            collapse"
+                            (samples tightly clustered around the mean).
+                        </p>
+                        <p>
+                            <strong class="text-slate-200">Clinical Impact:</strong> These limitations lead to poor
+                            generalizability in predictive models, hindering early diagnosis and risk detection.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="literature" class="space-y-6">
+                    <div class="glass p-8 rounded-3xl border-r-4 border-purple-500/50">
+                        <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-4">Literature Review
+                        </h3>
+                        <ul class="space-y-4 text-sm text-slate-400">
+                            <li class="flex gap-3">
+                                <span class="text-slate-600 font-mono">01</span>
+                                <span><strong>Yilmaz et al. [19]:</strong> Used RF, LR, and SVM. RF achieved highest
+                                    accuracy (92.9%), but limited by data size.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-slate-600 font-mono">02</span>
+                                <span><strong>Tazwar et al. [12]:</strong> Identified "posterior collapse" in VAEs for
+                                    tabular data. Proposed Tab-VAE but still had low F1-scores on imbalanced
+                                    data.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-slate-600 font-mono">03</span>
+                                <span><strong>Xu et al. [17]:</strong> Proposed CTGAN. Outperformed traditional methods
+                                    but
+                                    requires further stability improvements for medical data.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass p-8 rounded-3xl border-r-4 border-green-500/50">
+                        <h3 class="text-green-400 font-bold text-xs uppercase tracking-widest mb-4">Research Gap &
+                            Innovation</h3>
+                        <p class="text-sm text-slate-400 italic">
+                            "While GANs and VAEs exist individually, a hybrid approach specifically targeting the
+                            stability
+                            of WGAN-GP with the latent structure of VAE for <strong>Tabular Medical Data</strong> is
+                            underexplored. Our innovation lies in using the VAE decoder as the foundation for the WGAN
+                            generator to enforce robust feature correlation."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- METHODOLOGY -->
+            <section id="methodology" class="space-y-12">
+                <h2 class="text-4xl font-black text-center uppercase tracking-tight">System <span
+                        class="text-blue-500">Methodology</span></h2>
+
+                <!-- High Level Cards -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
+                        <i class="fas fa-database text-blue-500 text-3xl mb-4"></i>
+                        <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">Dataset (Comprehensive)</h3>
+                        <p class="text-sm text-slate-500">Combined 5 datasets (Cleveland, Hungarian, etc.)<br>1190
+                            Instances, 11 Features.</p>
+                    </div>
+                    <div class="glass p-8 rounded-3xl text-center hover:bg-white/5 transition">
+                        <i class="fas fa-brain text-purple-500 text-3xl mb-4"></i>
+                        <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">VAE-WGAN-GP Hybrid</h3>
+                        <p class="text-sm text-slate-500">VAE for Latent Space Learning.<br>WGAN-GP for Data Refinement.
+                        </p>
+                    </div>
                     <div
-                        class="absolute inset-0 bg-green-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    </div>
-                    <i class="fab fa-github text-green-500 text-3xl mb-4 relative z-10"></i>
-                    <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-green-400 relative z-10">Live
-                        Execution</h3>
-                    <a href="https://github.com/Ridhi-Kul/CHD" target="_blank"
-                        class="px-6 py-2 bg-green-600 rounded-full text-[10px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 relative z-10 inline-block">VIEW
-                        REPOSITORY</a>
-                </div>
-            </div>
-
-            <!-- Detailed Algorithm & Workflow -->
-            <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Algorithm Column -->
-                <div class="space-y-4">
-                    <h3 class="text-2xl font-bold mb-6">Algorithm: <span class="text-blue-400">VAE-WGAN-GP
-                            Pipeline</span></h3>
-
-                    <details class="glass p-6 rounded-2xl" open>
-                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
-                            Phase 1: VAE Foundational Training
-                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
-                        </summary>
-                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
-                            <div class="algo-step">Input: Real Training Data (X_train)</div>
-                            <div class="algo-step">Preprocess: P.fit_transform(X_train)</div>
-                            <div class="algo-step">Initialize VAE (Encoder E, Decoder D)</div>
-                            <div class="algo-step">Train VAE by minimizing <strong>L_VAE (ELBO)</strong></div>
-                            <div class="algo-step">Output: Pre-trained Decoder (D_trained)</div>
+                        class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5 relative overflow-hidden group">
+                        <div
+                            class="absolute inset-0 bg-green-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                         </div>
-                    </details>
-
-                    <details class="glass p-6 rounded-2xl">
-                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
-                            Phase 2: WGAN-GP Refinement
-                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
-                        </summary>
-                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
-                            <div class="algo-step">Initialize Generator G using D_trained as core</div>
-                            <div class="algo-step">Initialize Critic C</div>
-                            <div class="algo-step"><strong>Loop</strong> (Training Iterations):</div>
-                            <div class="algo-step pl-6">Sample real data {x} and noise {z}</div>
-                            <div class="algo-step pl-6">Compute Critic Loss L_C (Wasserstein + Gradient Penalty)</div>
-                            <div class="algo-step pl-6">Update Critic parameters</div>
-                            <div class="algo-step pl-6">Train Generator (minimize -Critic output)</div>
-                            <div class="algo-step">Output: Final Generator (G_final)</div>
-                        </div>
-                    </details>
-
-                    <details class="glass p-6 rounded-2xl">
-                        <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
-                            Phase 3: Final Data Synthesis
-                            <i class="fas fa-chevron-down text-sm opacity-50"></i>
-                        </summary>
-                        <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
-                            <div class="algo-step">Generate Noise {z0, z1} for classes 0 and 1</div>
-                            <div class="algo-step">Generate Raw Synthetic Data: G_final(z, y)</div>
-                            <div class="algo-step">Inverse Transform to Original Scale</div>
-                            <div class="algo-step"><strong>Result:</strong> High-Quality Synthetic Dataset</div>
-                        </div>
-                    </details>
-                </div>
-
-                <!-- Workflow Diagram Column -->
-                <!-- Workflow Diagram Column (Mermaid) -->
-                <div
-                    class="glass p-6 rounded-3xl flex flex-col items-center justify-center bg-white/5 border border-white/10 relative overflow-hidden">
-                    <h3 class="text-xl font-bold mb-4 text-center">Proposed Workflow (VAE-WGAN-GP)</h3>
-                    <div class="mermaid w-full flex justify-center transform scale-90 md:scale-100">
-                        flowchart TD
-                        %% Nodes with Custom Styles
-                        classDef default fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc;
-                        classDef blue fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff;
-                        classDef purple fill:#581c87,stroke:#a855f7,stroke-width:2px,color:#fff;
-                        classDef green fill:#064e3b,stroke:#22c55e,stroke-width:2px,color:#fff;
-                        classDef metrics fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff;
-
-                        %% Start
-                        Start[Data Preprocessing<br />Cleaning, Normalization,<br />Train-Test Split 75:25]:::default
-
-                        %% Original Path
-                        OC[Train Classifiers<br />Baseline Data]:::blue
-
-                        %% VAE Path
-                        VAE[VAE Phase<br />Encoder -> 10D -> Decoder<br />50 Epochs, Adam]:::purple
-                        Latent[Synthetic Representations<br />in Latent Space]:::purple
-
-                        %% WGAN Path
-                        WGAN[WGAN-GP Phase<br />Generator <-> Critic<br />Epoch=150, Lambda=10]:::purple
-                            Refined[Refined Synthetic Data]:::purple
-
-                            %% Augmentation
-                            Aug[Augmentation Phase<br />Combine Synthetic + Original 1:1]:::green
-                            AC[Train Classifiers<br />Augmented Data]:::green
-
-                            %% Evaluation
-                            Eval[Evaluation<br />Accuracy, Precision,<br />Recall, F1 Score]:::metrics
-
-                            %% Edges
-                            Start -->|Original Datapath| OC
-                            Start -->|Data Augmentation Path| VAE
-                            VAE --> Latent
-                            Latent -->|Decoder Foundation| WGAN
-                            WGAN --> Refined
-                            Refined --> Aug
-                            Start -.->|Original Data| Aug
-                            Aug -->|Column Transformer| AC
-
-                            OC --> Eval
-                            AC --> Eval
+                        <i class="fab fa-github text-green-500 text-3xl mb-4 relative z-10"></i>
+                        <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-green-400 relative z-10">Live
+                            Execution</h3>
+                        <a href="https://github.com/Ridhi-Kul/CHD" target="_blank"
+                            class="px-6 py-2 bg-green-600 rounded-full text-[10px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 relative z-10 inline-block">VIEW
+                            REPOSITORY</a>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- RESULTS -->
-        <section id="results" class="glass p-12 rounded-[3.5rem] border-t-4 border-blue-500">
-            <h2 class="text-3xl font-black mb-12 text-center uppercase tracking-tight">Results & <span
-                    class="text-blue-500">Analysis</span></h2>
+                <!-- Detailed Algorithm & Workflow -->
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Algorithm Column -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-bold mb-6">Algorithm: <span class="text-blue-400">VAE-WGAN-GP
+                                Pipeline</span></h3>
 
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <!-- Chart -->
-                <div class="h-96 w-full"><canvas id="resultsChart"></canvas></div>
+                        <details class="glass p-6 rounded-2xl" open>
+                            <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                                Phase 1: VAE Foundational Training
+                                <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                            </summary>
+                            <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                                <div class="algo-step">Input: Real Training Data (X_train)</div>
+                                <div class="algo-step">Preprocess: P.fit_transform(X_train)</div>
+                                <div class="algo-step">Initialize VAE (Encoder E, Decoder D)</div>
+                                <div class="algo-step">Train VAE by minimizing <strong>L_VAE (ELBO)</strong></div>
+                                <div class="algo-step">Output: Pre-trained Decoder (D_trained)</div>
+                            </div>
+                        </details>
 
-                <!-- Text Analysis -->
-                <div class="space-y-8">
-                    <div class="p-6 rounded-2xl bg-white/5 flex flex-col gap-2 border border-white/10 shadow-inner">
-                        <span class="text-slate-400 font-bold uppercase text-xs tracking-widest">Key Achievement</span>
-                        <div class="flex items-end gap-4">
-                            <span class="text-blue-400 font-mono font-black text-5xl">92.95%</span>
-                            <span class="text-slate-500 text-sm mb-2">Accuracy (Random Forest)</span>
-                        </div>
-                        <div class="w-full bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
-                            <div class="bg-blue-500 h-full" style="width: 92.95%"></div>
-                        </div>
+                        <details class="glass p-6 rounded-2xl">
+                            <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                                Phase 2: WGAN-GP Refinement
+                                <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                            </summary>
+                            <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                                <div class="algo-step">Initialize Generator G using D_trained as core</div>
+                                <div class="algo-step">Initialize Critic C</div>
+                                <div class="algo-step"><strong>Loop</strong> (Training Iterations):</div>
+                                <div class="algo-step pl-6">Sample real data {x} and noise {z}</div>
+                                <div class="algo-step pl-6">Compute Critic Loss L_C (Wasserstein + Gradient Penalty)
+                                </div>
+                                <div class="algo-step pl-6">Update Critic parameters</div>
+                                <div class="algo-step pl-6">Train Generator (minimize -Critic output)</div>
+                                <div class="algo-step">Output: Final Generator (G_final)</div>
+                            </div>
+                        </details>
+
+                        <details class="glass p-6 rounded-2xl">
+                            <summary class="font-bold text-lg flex justify-between items-center text-slate-200">
+                                Phase 3: Final Data Synthesis
+                                <i class="fas fa-chevron-down text-sm opacity-50"></i>
+                            </summary>
+                            <div class="text-sm text-slate-400 space-y-2 mt-4 font-mono">
+                                <div class="algo-step">Generate Noise {z0, z1} for classes 0 and 1</div>
+                                <div class="algo-step">Generate Raw Synthetic Data: G_final(z, y)</div>
+                                <div class="algo-step">Inverse Transform to Original Scale</div>
+                                <div class="algo-step"><strong>Result:</strong> High-Quality Synthetic Dataset</div>
+                            </div>
+                        </details>
                     </div>
 
-                    <p class="text-slate-400 text-sm leading-relaxed text-justify">
-                        "A comparative study was conducted by training various non-ensemble and ensemble machine
-                        learning models with <strong>Grey Wolf Optimization (GWO)</strong>.
-                        A significant improvement was evaluated with notable increase in accuracy for <strong>Random
-                            Forest (from 87.25% to 92.95%)</strong> and <strong>SVM (from 85.23% to 92.28%)</strong>
-                        when trained on the augmented dataset (1:1 ratio)."
-                    </p>
+                    <!-- Workflow Diagram Column -->
+                    <!-- Workflow Diagram Column (Mermaid) -->
+                    <div
+                        class="glass p-6 rounded-3xl flex flex-col items-center justify-center bg-white/5 border border-white/10 relative overflow-hidden">
+                        <h3 class="text-xl font-bold mb-4 text-center">Proposed Workflow (VAE-WGAN-GP)</h3>
+                        <div class="mermaid w-full flex justify-center transform scale-90 md:scale-100">
+                            flowchart TD
+                            %% Nodes with Custom Styles
+                            classDef default fill:#1e293b,stroke:#475569,stroke-width:2px,color:#f8fafc;
+                            classDef blue fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff;
+                            classDef purple fill:#581c87,stroke:#a855f7,stroke-width:2px,color:#fff;
+                            classDef green fill:#064e3b,stroke:#22c55e,stroke-width:2px,color:#fff;
+                            classDef metrics fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff;
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="glass p-4 rounded-xl text-center">
-                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">CatBoost</p>
-                            <p class="text-xl font-bold text-white">90.94% <span
-                                    class="text-xs text-green-400">(+4.03%)</span></p>
-                        </div>
-                        <div class="glass p-4 rounded-xl text-center border border-red-500/20">
-                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">Naive Bayes</p>
-                            <p class="text-xl font-bold text-white">74.50% <span
-                                    class="text-xs text-red-400">(-4.02%)</span></p>
+                            %% Start
+                            Start[Data Preprocessing<br />Cleaning, Normalization,<br />Train-Test Split
+                            75:25]:::default
+
+                            %% Original Path
+                            OC[Train Classifiers<br />Baseline Data]:::blue
+
+                            %% VAE Path
+                            VAE[VAE Phase<br />Encoder -> 10D -> Decoder<br />50 Epochs, Adam]:::purple
+                            Latent[Synthetic Representations<br />in Latent Space]:::purple
+
+                            %% WGAN Path
+                            WGAN[WGAN-GP Phase<br />Generator <-> Critic<br />Epoch=150, Lambda=10]:::purple
+                                Refined[Refined Synthetic Data]:::purple
+
+                                %% Augmentation
+                                Aug[Augmentation Phase<br />Combine Synthetic + Original 1:1]:::green
+                                AC[Train Classifiers<br />Augmented Data]:::green
+
+                                %% Evaluation
+                                Eval[Evaluation<br />Accuracy, Precision,<br />Recall, F1 Score]:::metrics
+
+                                %% Edges
+                                Start -->|Original Datapath| OC
+                                Start -->|Data Augmentation Path| VAE
+                                VAE --> Latent
+                                Latent -->|Decoder Foundation| WGAN
+                                WGAN --> Refined
+                                Refined --> Aug
+                                Start -.->|Original Data| Aug
+                                Aug -->|Column Transformer| AC
+
+                                OC --> Eval
+                                AC --> Eval
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Effect of Data Augmentation and Optimization -->
-            <div class="mt-16 border-t border-white/10 pt-16">
-                <h3 class="text-2xl font-bold mb-8 text-center uppercase tracking-widest text-slate-200"><span
-                        class="text-blue-500">5.3</span> Effect of Data Augmentation & Optimization</h3>
-                <div class="grid lg:grid-cols-2 gap-12 items-start">
+            <!-- RESULTS -->
+            <section id="results" class="glass p-12 rounded-[3.5rem] border-t-4 border-blue-500">
+                <h2 class="text-3xl font-black mb-12 text-center uppercase tracking-tight">Results & <span
+                        class="text-blue-500">Analysis</span></h2>
 
-                    <!-- Text Descriptions -->
-                    <div class="space-y-6 text-slate-400 text-sm leading-relaxed text-justify">
-                        <div class="glass p-6 rounded-2xl border-l-4 border-blue-500/50">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <!-- Chart -->
+                    <div class="h-96 w-full"><canvas id="resultsChart"></canvas></div>
+
+                    <!-- Text Analysis -->
+                    <div class="space-y-8">
+                        <div class="p-6 rounded-2xl bg-white/5 flex flex-col gap-2 border border-white/10 shadow-inner">
+                            <span class="text-slate-400 font-bold uppercase text-xs tracking-widest">Key
+                                Achievement</span>
+                            <div class="flex items-end gap-4">
+                                <span class="text-blue-400 font-mono font-black text-5xl">92.95%</span>
+                                <span class="text-slate-500 text-sm mb-2">Accuracy (Random Forest)</span>
+                            </div>
+                            <div class="w-full bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+                                <div class="bg-blue-500 h-full" style="width: 92.95%"></div>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-400 text-sm leading-relaxed text-justify">
+                            "A comparative study was conducted by training various non-ensemble and ensemble machine
+                            learning models with <strong>Grey Wolf Optimization (GWO)</strong>.
+                            A significant improvement was evaluated with notable increase in accuracy for <strong>Random
+                                Forest (from 87.25% to 92.95%)</strong> and <strong>SVM (from 85.23% to 92.28%)</strong>
+                            when trained on the augmented dataset (1:1 ratio)."
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass p-4 rounded-xl text-center">
+                                <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">CatBoost</p>
+                                <p class="text-xl font-bold text-white">90.94% <span
+                                        class="text-xs text-green-400">(+4.03%)</span></p>
+                            </div>
+                            <div class="glass p-4 rounded-xl text-center border border-red-500/20">
+                                <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">Naive Bayes</p>
+                                <p class="text-xl font-bold text-white">74.50% <span
+                                        class="text-xs text-red-400">(-4.02%)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Effect of Data Augmentation and Optimization -->
+                <div class="mt-16 border-t border-white/10 pt-16">
+                    <h3 class="text-2xl font-bold mb-8 text-center uppercase tracking-widest text-slate-200"><span
+                            class="text-blue-500">5.3</span> Effect of Data Augmentation & Optimization</h3>
+                    <div class="grid lg:grid-cols-2 gap-12 items-start">
+
+                        <!-- Text Descriptions -->
+                        <div class="space-y-6 text-slate-400 text-sm leading-relaxed text-justify">
+                            <div class="glass p-6 rounded-2xl border-l-4 border-blue-500/50">
+                                <p>
+                                    To understand how the data augmentation contributes to the results and its effect
+                                    with
+                                    respect to optimization strategies we analysed 4 situations:
+                                </p>
+                                <ul class="mt-4 space-y-2 text-slate-300">
+                                    <li><strong class="text-blue-400">(i)</strong> Models trained on the real dataset
+                                        without optimization</li>
+                                    <li><strong class="text-blue-400">(ii)</strong> Real dataset with GWO optimization
+                                    </li>
+                                    <li><strong class="text-blue-400">(iii)</strong> Augmented dataset without
+                                        optimization
+                                    </li>
+                                    <li><strong class="text-blue-400">(iv)</strong> Augmented dataset with GWO</li>
+                                </ul>
+                            </div>
                             <p>
-                                To understand how the data augmentation contributes to the results and its effect with
-                                respect to optimization strategies we analysed 4 situations:
+                                The impact of data augmentation is independent to the improvement in performance. This
+                                can
+                                be observed in Table 2 where we can see that accuracy for <strong class="text-white">SVM
+                                    improves from 82.89% on the real dataset to 89.26%</strong> using augmented data
+                                without
+                                GWO. This demonstrates that the generated synthetic samples enhance the generalization
+                                of
+                                decision boundary.
                             </p>
-                            <ul class="mt-4 space-y-2 text-slate-300">
-                                <li><strong class="text-blue-400">(i)</strong> Models trained on the real dataset
-                                    without optimization</li>
-                                <li><strong class="text-blue-400">(ii)</strong> Real dataset with GWO optimization</li>
-                                <li><strong class="text-blue-400">(iii)</strong> Augmented dataset without optimization
-                                </li>
-                                <li><strong class="text-blue-400">(iv)</strong> Augmented dataset with GWO</li>
-                            </ul>
+                            <p>
+                                Similarly, this can be noted for ensemble models such as Random Forest and Gradient
+                                Boosting
+                                indicating an improvement in the feature space and reduction in overfitting. GWO works
+                                to
+                                improve the models performance by facilitating hyperparameter tuning. The improvements
+                                introduced by GWO alone remain comparatively smaller than those achieved through
+                                augmentation for several classifiers.
+                            </p>
+                            <p
+                                class="italic text-slate-500 border-l-2 border-red-500/50 pl-4 bg-red-500/5 p-3 rounded-r-lg">
+                                <strong class="text-red-400 not-italic">Note:</strong> Naïve Bayes exhibits a reduced
+                                performance under augmentation due to violation of its assumption that features are
+                                independent of each other as discussed in Section 5.1.
+                            </p>
                         </div>
-                        <p>
-                            The impact of data augmentation is independent to the improvement in performance. This can
-                            be observed in Table 2 where we can see that accuracy for <strong class="text-white">SVM
-                                improves from 82.89% on the real dataset to 89.26%</strong> using augmented data without
-                            GWO. This demonstrates that the generated synthetic samples enhance the generalization of
-                            decision boundary.
-                        </p>
-                        <p>
-                            Similarly, this can be noted for ensemble models such as Random Forest and Gradient Boosting
-                            indicating an improvement in the feature space and reduction in overfitting. GWO works to
-                            improve the models performance by facilitating hyperparameter tuning. The improvements
-                            introduced by GWO alone remain comparatively smaller than those achieved through
-                            augmentation for several classifiers.
-                        </p>
-                        <p
-                            class="italic text-slate-500 border-l-2 border-red-500/50 pl-4 bg-red-500/5 p-3 rounded-r-lg">
-                            <strong class="text-red-400 not-italic">Note:</strong> Naïve Bayes exhibits a reduced
-                            performance under augmentation due to violation of its assumption that features are
-                            independent of each other as discussed in Section 5.1.
-                        </p>
-                    </div>
 
-                    <!-- Table -->
-                    <div class="glass rounded-3xl p-6 overflow-x-auto relative group">
-                        <table class="w-full text-left text-[11px] md:text-xs">
-                            <thead class="text-slate-400 font-bold uppercase tracking-wider border-b border-slate-700">
-                                <tr>
-                                    <th class="py-3 px-2">Model</th>
-                                    <th class="py-3 px-2">Real</th>
-                                    <th class="py-3 px-2 text-blue-400 border-l border-white/5 pl-3">Real+GWO</th>
-                                    <th class="py-3 px-2 text-purple-400 border-l border-white/5 pl-3">Augmented</th>
-                                    <th class="py-3 px-2 text-green-400 border-l border-white/5 pl-3">Aug+GWO</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-slate-300 divide-y divide-slate-800 font-mono">
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Logistic Regression
-                                    </td>
-                                    <td class="py-3 px-2">82.28%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">82.55%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.56%</td>
-                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">84.90%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition bg-red-900/10">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Naïve Bayes</td>
-                                    <td class="py-3 px-2 text-blue-300 font-bold">82.89%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">78.52%</td>
-                                    <td class="py-3 px-2 text-red-400 border-l border-white/5 pl-3">50.34%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">74.50%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">K-Nearest Neighbor</td>
-                                    <td class="py-3 px-2 text-blue-300 font-bold">90.27%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.59%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition bg-green-900/10">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Support Vector Machine
-                                    </td>
-                                    <td class="py-3 px-2">82.89%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">85.23%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
-                                    <td class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
-                                        92.28%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Decision Tree</td>
-                                    <td class="py-3 px-2">84.23%</td>
-                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">87.58%
-                                    </td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition bg-green-900/10">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Random Forest</td>
-                                    <td class="py-3 px-2">86.24%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.91%</td>
-                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">92.28%</td>
-                                    <td class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
-                                        92.95%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">XGBoost</td>
-                                    <td class="py-3 px-2">87.25%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">87.25%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">87.92%</td>
-                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">88.59%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">CatBoost</td>
-                                    <td class="py-3 px-2">87.25%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
-                                    <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">89.93%</td>
-                                    <td class="py-3 px-2 text-green-400 font-bold border-l border-white/5 pl-3">91.28%
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">AdaBoost</td>
-                                    <td class="py-3 px-2">84.23%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
-                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">84.56%
-                                    </td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="py-3 px-2 font-sans font-semibold text-slate-200">Gradient Boosting</td>
-                                    <td class="py-3 px-2">86.24%</td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
-                                    <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">90.94%
-                                    </td>
-                                    <td class="py-3 px-2 border-l border-white/5 pl-3">89.93%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="mt-4 border-t border-slate-700/50 pt-4 text-center">
-                            <p class="text-[10px] text-slate-400 uppercase tracking-widest font-sans">Table 2: Impact of
-                                Data Augmentation and Grey Wolf Optimization on Classification Accuracy (%)</p>
+                        <!-- Table -->
+                        <div class="glass rounded-3xl p-6 overflow-x-auto relative group">
+                            <table class="w-full text-left text-[11px] md:text-xs">
+                                <thead
+                                    class="text-slate-400 font-bold uppercase tracking-wider border-b border-slate-700">
+                                    <tr>
+                                        <th class="py-3 px-2">Model</th>
+                                        <th class="py-3 px-2">Real</th>
+                                        <th class="py-3 px-2 text-blue-400 border-l border-white/5 pl-3">Real+GWO</th>
+                                        <th class="py-3 px-2 text-purple-400 border-l border-white/5 pl-3">Augmented
+                                        </th>
+                                        <th class="py-3 px-2 text-green-400 border-l border-white/5 pl-3">Aug+GWO</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-300 divide-y divide-slate-800 font-mono">
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Logistic Regression
+                                        </td>
+                                        <td class="py-3 px-2">82.28%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">82.55%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">84.56%</td>
+                                        <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">84.90%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition bg-red-900/10">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Naïve Bayes</td>
+                                        <td class="py-3 px-2 text-blue-300 font-bold">82.89%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">78.52%</td>
+                                        <td class="py-3 px-2 text-red-400 border-l border-white/5 pl-3">50.34%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">74.50%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">K-Nearest Neighbor
+                                        </td>
+                                        <td class="py-3 px-2 text-blue-300 font-bold">90.27%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">88.59%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition bg-green-900/10">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Support Vector
+                                            Machine
+                                        </td>
+                                        <td class="py-3 px-2">82.89%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">85.23%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">89.26%</td>
+                                        <td
+                                            class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
+                                            92.28%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Decision Tree</td>
+                                        <td class="py-3 px-2">84.23%</td>
+                                        <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">
+                                            87.58%
+                                        </td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition bg-green-900/10">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Random Forest</td>
+                                        <td class="py-3 px-2">86.24%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">86.91%</td>
+                                        <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">92.28%</td>
+                                        <td
+                                            class="py-3 px-2 text-green-400 font-bold text-sm border-l border-white/5 pl-3">
+                                            92.95%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">XGBoost</td>
+                                        <td class="py-3 px-2">87.25%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">87.25%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">87.92%</td>
+                                        <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">88.59%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">CatBoost</td>
+                                        <td class="py-3 px-2">87.25%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">86.24%</td>
+                                        <td class="py-3 px-2 text-blue-300 border-l border-white/5 pl-3">89.93%</td>
+                                        <td class="py-3 px-2 text-green-400 font-bold border-l border-white/5 pl-3">
+                                            91.28%
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">AdaBoost</td>
+                                        <td class="py-3 px-2">84.23%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                        <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">
+                                            84.56%
+                                        </td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">84.23%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-3 px-2 font-sans font-semibold text-slate-200">Gradient Boosting
+                                        </td>
+                                        <td class="py-3 px-2">86.24%</td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">88.26%</td>
+                                        <td class="py-3 px-2 text-blue-300 font-bold border-l border-white/5 pl-3">
+                                            90.94%
+                                        </td>
+                                        <td class="py-3 px-2 border-l border-white/5 pl-3">89.93%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-4 border-t border-slate-700/50 pt-4 text-center">
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-sans">Table 2:
+                                    Impact of
+                                    Data Augmentation and Grey Wolf Optimization on Classification Accuracy (%)</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- CONCLUSION & TEAM -->
-        <section id="team" class="text-center pt-10 border-t border-slate-900">
-            <h2 class="text-4xl font-black mb-8">Conclusion</h2>
-            <p class="max-w-4xl mx-auto text-slate-400 mb-16 leading-relaxed">
-                "Our proposed VAE-WGAN-GP architecture successfully addresses data scarcity in medical datasets. By
-                leveraging the VAE's latent space understanding and WGAN-GP's stable training, we generated high-quality
-                synthetic data that significantly improved the robustness and generalizability of ML models for Heart
-                Disease Prediction."
-            </p>
+            <!-- CONCLUSION & TEAM -->
+            <section id="team" class="text-center pt-10 border-t border-slate-900">
+                <h2 class="text-4xl font-black mb-8">Conclusion</h2>
+                <p class="max-w-4xl mx-auto text-slate-400 mb-16 leading-relaxed">
+                    "Our proposed VAE-WGAN-GP architecture successfully addresses data scarcity in medical datasets. By
+                    leveraging the VAE's latent space understanding and WGAN-GP's stable training, we generated
+                    high-quality
+                    synthetic data that significantly improved the robustness and generalizability of ML models for
+                    Heart
+                    Disease Prediction."
+                </p>
 
-            <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12">Project Team</h2>
-            <div class="flex flex-wrap justify-center gap-10">
-                <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600 w-72">
-                    <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Mentor / Guide</p>
-                    <p class="font-black text-xl text-slate-100">Dr. Akshay Jadhav</p>
-                    <p class="text-[10px] text-slate-500 mt-1">Manipal University Jaipur</p>
+                <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12">Project Team</h2>
+                <div class="flex flex-wrap justify-center gap-10">
+                    <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600 w-72">
+                        <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Mentor / Guide</p>
+                        <p class="font-black text-xl text-slate-100">Dr. Akshay Jadhav</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Manipal University Jaipur</p>
+                    </div>
+                    <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-purple-600 w-72">
+                        <p class="text-[9px] font-bold text-purple-400 mb-2 uppercase tracking-widest">Presenter /
+                            Student
+                        </p>
+                        <p class="font-black text-xl text-slate-100">Ridhi Kulshreshtha</p>
+                        <p class="text-[10px] text-slate-500 mt-1">23FE10CSE00560</p>
+                    </div>
                 </div>
-                <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-purple-600 w-72">
-                    <p class="text-[9px] font-bold text-purple-400 mb-2 uppercase tracking-widest">Presenter / Student
+            </section>
+        </div> <!-- End Paper 1 -->
+
+        <!-- PAPER 2 WRAPPER -->
+        <div id="paper2" class="space-y-32 transition-opacity duration-500 opacity-0 hidden">
+
+            <!-- HEADER -->
+            <section id="intro2" class="text-center space-y-6">
+                <div
+                    class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono uppercase tracking-widest mb-4">
+                    Paper 2: Remote Sensing
+                </div>
+                <!-- Figure 1: Electromagnetic Spectrum Header Graphic -->
+                <div class="w-full max-w-4xl mx-auto mb-8 h-8 rounded-full overflow-hidden flex relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-500 via-yellow-500 to-gray-500 opacity-20">
+                    </div>
+                    <!-- recreated spectral bands roughly -->
+                    <div class="flex-1 bg-slate-600 flex items-center justify-center border-r border-black/50"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">GAMMA</span></div>
+                    <div class="flex-1 bg-slate-500 flex items-center justify-center border-r border-black/50"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">X-RAYS</span></div>
+                    <div class="flex-1 bg-slate-400 flex items-center justify-center border-r border-black/50"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">UV</span></div>
+                    <div
+                        class="w-32 bg-gradient-to-r from-purple-500 via-green-500 to-red-500 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.3)] z-10 font-bold text-black text-[10px] sm:text-xs">
+                        VISIBLE</div>
+                    <div class="flex-1 bg-slate-400 flex items-center justify-center border-l border-black/50"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">INFRARED</span></div>
+                    <div class="flex-1 bg-slate-500 flex items-center justify-center border-l border-black/50"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">MICROWAVE</span></div>
+                    <div class="flex-1 bg-slate-600 flex items-center justify-center"><span
+                            class="text-[8px] sm:text-[10px] text-white/50 tracking-widest">RADIO</span></div>
+                </div>
+
+                <h1 class="text-4xl md:text-6xl font-extrabold uppercase leading-tight max-w-5xl mx-auto">
+                    <span class="gradient-text">Spectral & Spatial Feature Extraction</span><br>
+                    <span class="text-2xl md:text-3xl text-white block mt-4">AI Techniques for Remote Sensing &
+                        Agriculture</span>
+                </h1>
+                <p
+                    class="text-slate-400 max-w-4xl mx-auto italic text-lg leading-relaxed border-l-2 border-purple-500/30 pl-6 text-left">
+                    "The realm of remote sensing is being transformed by multimodal data sources such as hyperspectral
+                    imaging. We aim to explore how cutting-edge machine learning and deep learning techniques analyse
+                    key features for in-depth evaluation of agricultural chemical properties based on hyperspectral
+                    data, and physical properties based on spatial images."
+                </p>
+            </section>
+
+            <!-- ML VS DL MATRIX -->
+            <section id="techniques2" class="space-y-12 pt-10">
+                <h2 class="text-3xl font-black text-center uppercase tracking-tight">AI Techniques in <span
+                        class="text-purple-500">Remote Sensing</span></h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- ML Column -->
+                    <div class="glass p-8 rounded-3xl relative overflow-hidden group border-blue-500/30 border">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl"><i
+                                class="fas fa-robot"></i></div>
+                        <h3 class="text-xl font-bold mb-4 text-blue-400 border-b border-white/10 pb-4">Machine Learning
+                        </h3>
+                        <p class="text-sm text-slate-400 mb-6 font-medium leading-relaxed">Optimal for dealing with
+                            smaller annotated datasets. Algorithms like SVM, Decision Trees, and Random Forests use
+                            handcrafted characteristics.</p>
+                        <ul class="space-y-3 text-[11px] text-slate-300">
+                            <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
+                                <span><strong>Interpretability:</strong> Models like RF can easily rank input features
+                                    using metrics like Gini Index.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
+                                <span><strong>Efficiency:</strong> Operates efficiently and effectively on smaller
+                                    datasets.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-times text-red-500 mt-1"></i>
+                                <span><strong>Limitation:</strong> Poor performance on high-dimensional raw spectral
+                                    data due to the curse of dimensionality.</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- DL Column -->
+                    <div class="glass p-8 rounded-3xl relative overflow-hidden group border-purple-500/30 border">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl"><i
+                                class="fas fa-network-wired"></i></div>
+                        <h3 class="text-xl font-bold mb-4 text-purple-400 border-b border-white/10 pb-4">Deep Learning
+                        </h3>
+                        <p class="text-sm text-slate-400 mb-6 font-medium leading-relaxed">Models like CNNs, RNNs, and
+                            Vision Transformers (ViTs) automatically learn complex patterns straight from raw
+                            dimensional data.</p>
+                        <ul class="space-y-3 text-[11px] text-slate-300">
+                            <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
+                                <span><strong>Feature Learning:</strong> Self-learns without manual human feature
+                                    engineering.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-check text-green-500 mt-1"></i>
+                                <span><strong>Scalability:</strong> Highly adept at processing massive volumes of
+                                    Multi-Modal Fusion RS data.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-times text-red-500 mt-1"></i>
+                                <span><strong>Limitation:</strong> High computational costs and acts as a "Black Box"
+                                    making it less interpretable.</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Hybrid Column -->
+                    <div
+                        class="glass p-8 rounded-3xl relative overflow-hidden group bg-gradient-to-b from-green-900/20 to-transparent border border-green-500">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl"><i
+                                class="fas fa-project-diagram"></i></div>
+                        <h3 class="text-xl font-bold mb-4 text-green-400 border-b border-white/10 pb-4">Hybrid
+                            Techniques</h3>
+                        <p class="text-sm text-slate-400 mb-6 font-medium leading-relaxed">The optimal tradeoff.
+                            Combines the transparency and dimensionality reduction of ML with the representational
+                            capability of DL.</p>
+                        <ul class="space-y-3 text-[11px] text-slate-300">
+                            <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
+                                <span><strong>Early & Mid Fusion:</strong> Combining low-level spectral features into
+                                    two-branch CNNs.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
+                                <span><strong>Balanced Cost:</strong> Well-balanced computational resources. Uses
+                                    dimensionality reduction (PCA) from ML to moderate training data amounts.</span>
+                            </li>
+                            <li class="flex gap-2 items-start"><i class="fas fa-star text-yellow-500 mt-1"></i>
+                                <span><strong>Higher Accuracy:</strong> Mitigates the curse of dimensionality while
+                                    retaining robust feature correlation.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATA HANDLING -->
+            <section id="data2" class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-black uppercase tracking-tight text-white mb-2">Data Handling Pipeline</h2>
+                    <h3
+                        class="text-sm font-bold text-slate-500 uppercase tracking-widest border-l-[3px] border-purple-500 pl-3">
+                        Figure 3: For Hyperspectral Imaging</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-justify mt-6">
+                        For managing high-dimensional imagery across diverse geospatial applications, efficient data
+                        handling is critical.
+                        <strong>Principal Component Analysis (PCA)</strong> is utilized to compress redundant
+                        dimensions, while <strong>3D attention-convolutional autoencoders</strong> learn compact
+                        spectral-spatial representations from nonlinear interactions.
                     </p>
-                    <p class="font-black text-xl text-slate-100">Ridhi Kulshreshtha</p>
-                    <p class="text-[10px] text-slate-500 mt-1">23FE10CSE00560</p>
+                    <p class="text-slate-400 text-sm leading-relaxed text-justify">
+                        Once dimensions are reduced to 1D signals while retaining spectral and spatial context
+                        <strong>(Hyperspectrograms)</strong>, patch-based multi-scale learning is applied prior to
+                        Fusion with other modialities like LiDAR for the final model input.
+                    </p>
                 </div>
-            </div>
-        </section>
+
+                <div
+                    class="glass p-8 rounded-[2rem] flex items-center justify-center min-h-[350px] relative overflow-hidden bg-white/5 block border border-white/10">
+                    <div class="flex flex-col items-center gap-1 w-full max-w-sm">
+
+                        <!-- Box 1 -->
+                        <div class="bg-[#dcd8df] text-black text-center py-4 px-6 rounded-[2rem] w-full shadow-md">
+                            <span class="text-2xl" style="font-family: 'Times New Roman', Times, serif;">Raw HSI</span>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="h-10 flex items-center justify-center text-black">
+                            <!-- SVG thick down arrow -->
+                            <svg width="24" height="40" viewBox="0 0 24 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="filter: drop-shadow(0px 0px 4px rgba(255,255,255,0.5));">
+                                <path d="M10 0V30H5L12 40L19 30H14V0H10Z" fill="white" />
+                            </svg>
+                        </div>
+
+                        <!-- Box 2 -->
+                        <div class="bg-[#dcd8df] text-black text-center py-3 px-6 rounded-[2rem] w-full shadow-md">
+                            <span class="text-2xl block"
+                                style="font-family: 'Times New Roman', Times, serif;">Dimensionality Reduction</span>
+                            <span class="text-xl block mt-1" style="font-family: 'Times New Roman', Times, serif;">(e.g.
+                                PCA, Autoencoders)</span>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="h-10 flex items-center justify-center text-black">
+                            <svg width="24" height="40" viewBox="0 0 24 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="filter: drop-shadow(0px 0px 4px rgba(255,255,255,0.5));">
+                                <path d="M10 0V30H5L12 40L19 30H14V0H10Z" fill="white" />
+                            </svg>
+                        </div>
+
+                        <!-- Box 3 -->
+                        <div class="bg-[#dcd8df] text-black text-center py-3 px-6 rounded-[2rem] w-full shadow-md">
+                            <span class="text-2xl block" style="font-family: 'Times New Roman', Times, serif;">Data
+                                Fusion</span>
+                            <span class="text-xl block mt-1" style="font-family: 'Times New Roman', Times, serif;">(e.g.
+                                HSI + LiDAR)</span>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="h-10 flex items-center justify-center text-black">
+                            <svg width="24" height="40" viewBox="0 0 24 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="filter: drop-shadow(0px 0px 4px rgba(255,255,255,0.5));">
+                                <path d="M10 0V30H5L12 40L19 30H14V0H10Z" fill="white" />
+                            </svg>
+                        </div>
+
+                        <!-- Box 4 -->
+                        <div class="bg-[#dcd8df] text-black text-center py-4 px-6 rounded-[2rem] w-full shadow-md">
+                            <span class="text-2xl" style="font-family: 'Times New Roman', Times, serif;">Output for
+                                ML/DL Models</span>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- CASE STUDY -->
+            <section id="casestudy2"
+                class="glass p-12 rounded-[3.5rem] border-t-4 border-green-500 mt-12 bg-cover bg-center"
+                style="background-image: radial-gradient(circle at center, rgba(34,197,94,0.05) 0%, transparent 60%);">
+                <h2 class="text-3xl font-black mb-4 text-center uppercase tracking-tight text-white">Case Study: <span
+                        class="text-green-500">Precision Agriculture</span></h2>
+                <p class="text-center text-slate-400 mb-12 max-w-2xl mx-auto text-sm">AI-driven hyperspectral and
+                    spatial remote sensing actively transforms farming practices by focusing on key indicators.</p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-black/30 p-8 rounded-3xl border border-green-500/10 hover:border-green-500/40 transition">
+                        <i class="fas fa-leaf text-3xl text-green-500 mb-6"></i>
+                        <h4 class="text-lg font-bold text-white mb-3">Vegetation & Band Selection</h4>
+                        <p class="text-[12px] text-slate-300 leading-relaxed text-justify">
+                            Vegetation cover and chlorophyll levels are mapped using indices like <strong>NDVI</strong>
+                            derived from high-resolution hyperspectral bands. Techniques like Genetic Algorithms and PCA
+                            assist in selecting the most effective narrowband indices.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-black/30 p-8 rounded-3xl border border-blue-500/10 hover:border-blue-500/40 transition">
+                        <i class="fas fa-tint text-3xl text-blue-500 mb-6"></i>
+                        <h4 class="text-lg font-bold text-white mb-3">Crop Health & Soil Moisture</h4>
+                        <p class="text-[12px] text-slate-300 leading-relaxed text-justify">
+                            Combining VNIR-SWIR and LWIR bands accurately estimates soil organic matter and nutrient
+                            elements (Nitrogen, Phosphorous). Real-time drone (UAV) imagery processed via CNNs or U-Net
+                            can instantly detect disease and pest stress patterns.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-black/30 p-8 rounded-3xl border border-yellow-500/10 hover:border-yellow-500/40 transition">
+                        <i class="fas fa-chart-line text-3xl text-yellow-500 mb-6"></i>
+                        <h4 class="text-lg font-bold text-white mb-3">Yield Prediction & Hydroponics</h4>
+                        <p class="text-[12px] text-slate-300 leading-relaxed text-justify">
+                            Semantic segmentation maps crop patterns, while ML models (RF, GPR) predict yields prior to
+                            harvest. AI assessment supports hydroponic optimization and smart irrigation for maximum
+                            sustainability.
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- CONCLUSION & REFERENCES -->
+            <section class="text-center pt-10 border-t border-slate-900 pb-10">
+                <h2 class="text-4xl font-black mb-8">Conclusion</h2>
+                <p class="max-w-4xl mx-auto text-slate-400 mb-16 leading-relaxed">
+                    "This review of advanced machine-learning and deep-learning methods highlights their synergy in
+                    Remote Sensing. While traditional methods like SVM and RF excel in interpretability and efficiency,
+                    deep learning manages complicated trends. To conquer both limitations, Hybrid Models involving data
+                    structuring, PCA, autoencoders, and Hyperspectrograms prove best-suited for precision agriculture
+                    and environmental monitoring."
+                </p>
+
+                <div class="text-left max-w-5xl mx-auto border-t border-white/5 pt-12 mt-12 block">
+                    <h3 class="text-xs font-bold text-slate-600 uppercase tracking-[0.3em] mb-6 block w-full">Key
+                        References from Study</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-4 text-[10px] text-slate-500 font-mono">
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 transition">
+                            [1] A. Ozdemir and K. Polat, "Deep learning applications for hyperspectral imaging: a
+                            systematic review," Journal of the Institute of Electronics and Computer, vol. 2, no. 1, pp.
+                            39–56, 2020.
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 transition">
+                            [2] M. Sheykhmousa et al., "Support vector machine versus random forest for remote sensing
+                            image classification," IEEE J-STARS, vol. 13, 2020.
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 transition">
+                            [3] D. I. Puspitasari et al., "Machine learning algorithms for land cover classification
+                            using hybrid remote sensing and spectral indices," 2024.
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 transition">
+                            [18] J. Liu et al., "Boost precision agriculture with unmanned aerial vehicle remote sensing
+                            and edge intelligence: A survey," Remote Sensing, vol. 13, 2021.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEAM (Added for Paper 2) -->
+                <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12 mt-20">Project Team
+                </h2>
+                <div class="flex flex-wrap justify-center gap-10">
+                    <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600 w-72">
+                        <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Mentor / Guide</p>
+                        <p class="font-black text-xl text-slate-100">Dr. Akshay Jadhav</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Manipal University Jaipur</p>
+                    </div>
+                    <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-purple-600 w-72">
+                        <p class="text-[9px] font-bold text-purple-400 mb-2 uppercase tracking-widest">Presenter /
+                            Student
+                        </p>
+                        <p class="font-black text-xl text-slate-100">Ridhi Kulshreshtha</p>
+                        <p class="text-[10px] text-slate-500 mt-1">23FE10CSE00560</p>
+                    </div>
+                </div>
+
+            </section>
+
+        </div> <!-- End Paper 2 -->
     </main>
 
     <footer class="py-12 text-center bg-black/40 border-t border-slate-900 mt-20">
@@ -575,6 +941,54 @@
     </footer>
 
     <script>
+        // TAB LOGIC
+        function switchTab(tabId) {
+            const btn1 = document.getElementById('btnTab1');
+            const btn2 = document.getElementById('btnTab2');
+            const p1 = document.getElementById('paper1');
+            const p2 = document.getElementById('paper2');
+            const nav1 = document.getElementById('navLinksPaper1');
+            const nav2 = document.getElementById('navLinksPaper2');
+
+            if (tabId === 1) {
+                // Style buttons
+                btn1.className = "px-6 py-2 rounded-full text-xs font-bold transition-all bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]";
+                btn2.className = "px-6 py-2 rounded-full text-xs font-bold transition-all text-slate-400 hover:text-white bg-transparent shadow-none";
+
+                // Show Paper 1
+                p1.classList.remove('hidden');
+                setTimeout(() => p1.classList.replace('opacity-0', 'opacity-100'), 50);
+
+                // Hide Paper 2
+                p2.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => p2.classList.add('hidden'), 500);
+
+                // Show/Hide Nav Links
+                nav1.classList.remove('hidden');
+                nav1.classList.add('xl:flex');
+                nav2.classList.add('hidden');
+                nav2.classList.remove('xl:flex');
+            } else {
+                // Style buttons
+                btn2.className = "px-6 py-2 rounded-full text-xs font-bold transition-all bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.5)]";
+                btn1.className = "px-6 py-2 rounded-full text-xs font-bold transition-all text-slate-400 hover:text-white bg-transparent shadow-none";
+
+                // Show Paper 2
+                p2.classList.remove('hidden');
+                setTimeout(() => p2.classList.replace('opacity-0', 'opacity-100'), 50);
+
+                // Hide Paper 1
+                p1.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => p1.classList.add('hidden'), 500);
+
+                // Show/Hide Nav Links
+                nav2.classList.remove('hidden');
+                nav2.classList.add('xl:flex');
+                nav1.classList.add('hidden');
+                nav1.classList.remove('xl:flex');
+            }
+        }
+
         // TIMER LOGIC (Matches requirement)
         let sec = 0;
         let timer = null;
